@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
-export default function Home() {
+export default function settings() {
     return (
         <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-            <h1>Welcome to GrindRival!</h1>
+            <h1>different types of settings</h1>
             <Button variant="default">
                 {' '}
                 <Link href="/dashboard">Get Started</Link>
