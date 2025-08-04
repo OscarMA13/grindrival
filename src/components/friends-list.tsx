@@ -37,8 +37,9 @@ export default function FriendsList() {
                     </CardFooter>
                 </>
             ) : (
-                <div className="flex h-full w-full flex-col items-center justify-center">
-                    <Button>Add Friend +</Button>
+                <div className="h-30 flex w-full flex-col items-center justify-center gap-4">
+                    <p className="text-gray-400">No friends added yet.</p>
+                    <Button variant="default">Add Friend +</Button>
                 </div>
             )}
         </Card>

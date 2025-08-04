@@ -1,26 +1,39 @@
+'use client'
 import { CommandDialogDemo } from '@/components/combo-box'
 import RankCards from '@/components/rank-cards'
+import { useQuery } from 'convex/react'
+import { api } from '../../../convex/_generated/api'
 
 export interface Workout {
     name: string
-    rank: string
-    description: string
+
     weight?: string
 }
 
-const typesofworkouts: Workout[] = [
-    { name: 'Chest', rank: 'platinum', description: 'You are currently ranked Platinum in Chest.', weight: '100' },
-    { name: 'Back', rank: 'gold', description: 'You are currently ranked Gold in Back.', weight: '90' },
-    { name: 'Legs', rank: 'silver', description: 'You are currently ranked Silver in Legs.', weight: '80' },
-    { name: 'Shoulders', rank: 'gold', description: 'You are currently ranked Gold in Shoulders.', weight: '85' },
-    { name: 'Arms', rank: 'silver', description: 'You are currently ranked Silver in Arms.', weight: '75' },
-    { name: 'Abs', rank: 'gold', description: 'You are currently ranked Gold in Abs.', weight: '70' },
-    { name: 'Cardio', rank: 'platinum', description: 'You are currently ranked Platinum in Cardio.', weight: '95' },
-    { name: 'Glutes', rank: 'gold', description: 'You are currently ranked Gold in Glutes.', weight: '88' },
-    { name: 'Calves', rank: 'bronze', description: 'You are currently ranked Bronze in Calves.', weight: '65' }
-]
+export default function Rank() {
+    const workouts = useQuery(api.workouts.getWorkoutsForCurrentUser)
+    const latestWorkout = workouts?.[0]
 
-export default function rank() {
+    const typesofworkouts = latestWorkout
+        ? [
+              {
+                  name: 'Bench',
+                  weight: latestWorkout.bench.toString()
+              },
+              {
+                  name: 'Squat',
+                  weight: latestWorkout.squat.toString()
+              },
+              {
+                  name: 'Deadlift',
+                  weight: latestWorkout.deadlift.toString()
+              }
+          ]
+        : [
+              { name: 'Bench', weight: '0' },
+              { name: 'Squat', weight: '0' },
+              { name: 'Deadlift', weight: '0' }
+          ]
     return (
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
@@ -30,13 +43,7 @@ export default function rank() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {typesofworkouts.map((workout) => (
-                            <RankCards
-                                key={workout.name}
-                                name={workout.name}
-                                rank={workout.rank}
-                                description={workout.description}
-                                weight={workout.weight ?? ''}
-                            />
+                            <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} />
                         ))}
                     </div>
                 </div>
