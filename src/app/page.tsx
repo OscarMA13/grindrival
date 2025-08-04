@@ -1,30 +1,35 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
-import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs'
-import Link from 'next/link'
-export default function Home() {
+import { useStoreUserEffect } from '@/useStoreUserEffect'
+import { SignInButton, SignUpButton } from '@clerk/clerk-react'
+import { useRouter } from 'next/navigation'
+
+function App() {
+    const router = useRouter()
+    const { isLoading, isAuthenticated } = useStoreUserEffect()
     return (
-        <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-            <h1 className="text-4xl font-bold">Welcome to GrindRival!</h1>
-
-            <SignedOut>
-                <div className="flex flex-col items-center gap-4">
-                    <p className="text-muted-foreground text-lg">Sign in to start your fitness journey</p>
+        <main>
+            {isLoading ? (
+                <>Loading...</>
+            ) : !isAuthenticated ? (
+                <div className="flex h-screen items-center justify-center gap-4">
                     <SignInButton>
-                        <Button variant="default" size="lg">
-                            Get Started
-                        </Button>
+                        <Button>Sign In</Button>
                     </SignInButton>
-                </div>
-            </SignedOut>
 
-            <SignedIn>
-                <div className="flex flex-col items-center gap-4">
-                    <p className="text-muted-foreground text-lg">Welcome back! Ready to continue your grind?</p>
-                    <Button variant="default" size="lg" asChild>
-                        <Link href="/dashboard">Go to Dashboard</Link>
-                    </Button>
+                    <SignUpButton>
+                        <Button>Sign Up</Button>
+                    </SignUpButton>
                 </div>
-            </SignedIn>
-        </div>
+            ) : (
+                <div className="flex h-screen flex-col items-center justify-center gap-4">
+                    <h1 className="text-2xl">Continue Your Journey</h1>
+                    <Button onClick={() => router.push('/dashboard')}>Continue</Button>
+                </div>
+            )}
+        </main>
     )
 }
+
+export default App

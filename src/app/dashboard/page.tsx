@@ -1,51 +1,78 @@
+'use client'
+
+import FriendsList from '@/components/friends-list'
 import { ProgressChart } from '@/components/progess-chart'
 import RankCards from '@/components/rank-cards'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Workout } from '../rank/page'
-const typesofworkouts: Workout[] = [
-    { name: 'Chest', rank: 'platinum', description: 'You are currently ranked Platinum in Chest.', weight: '100' },
-    { name: 'Back', rank: 'gold', description: 'You are currently ranked Gold in Back.', weight: '90' }
-]
+import { useUser } from '@clerk/nextjs'
+import { useQuery } from 'convex/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { api } from '../../../convex/_generated/api'
+
 export default function Dashboard() {
+    const { isLoaded, isSignedIn } = useUser()
+    const router = useRouter()
+    const workouts = useQuery(api.workouts.getWorkoutsForCurrentUser)
+
+    useEffect(() => {
+        if (isLoaded && !isSignedIn) {
+            router.push('/')
+        }
+    }, [isLoaded, isSignedIn, router])
+
+    if (!isLoaded) {
+        return <div>Loading...</div>
+    }
+
+    if (!isSignedIn) {
+        return null
+    }
+
+    // Get the latest workout data
+    const latestWorkout = workouts?.[0]
+
+    // Create workout cards from real data or show default if no workouts
+    const typesofworkouts = latestWorkout
+        ? [
+              {
+                  name: 'Bench',
+                  weight: latestWorkout.bench.toString()
+              },
+              {
+                  name: 'Squat',
+                  weight: latestWorkout.squat.toString()
+              },
+              {
+                  name: 'Deadlift',
+                  weight: latestWorkout.deadlift.toString()
+              }
+          ]
+        : [
+              { name: 'Bench', weight: '0' },
+              { name: 'Squat', weight: '0' },
+              { name: 'Deadlift', weight: '0' }
+          ]
+
     return (
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex flex-row gap-8">
                     {typesofworkouts.map((workout) => (
-                        <RankCards key={workout.name} name={workout.name} rank={workout.rank} description={workout.description} weight={workout.weight ?? ''} />
+                        <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} />
                     ))}
                 </div>
-                <Card className="h-full w-full">
-                    <CardHeader>
-                        <CardTitle>List of friends</CardTitle>
-                        <CardDescription></CardDescription>
-                        <CardAction></CardAction>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-[1fr_2fr]">
-                        <div>Image will go here </div>
-                        <ul className="flex list-disc flex-col gap-5 pl-5">
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Alex Johnson <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Maria Chen <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Sam Patel <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Jordan Lee <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Chris Smith <Button> Add your friend</Button>
-                            </li>
-                        </ul>
-                    </CardContent>
-                    <CardFooter>
-                        <Button>Add Friend +</Button>
-                    </CardFooter>
-                </Card>
+
+                {!latestWorkout && (
+                    <Card className="w-full">
+                        <CardContent className="p-6 text-center">
+                            <p className="mb-4 text-gray-600">No workout data found. Complete your first survey to see your rankings!</p>
+                            <Button onClick={() => router.push('/survey')}>Take Survey</Button>
+                        </CardContent>
+                    </Card>
+                )}
+                <FriendsList />
                 <Card className="h-full w-full">
                     <CardHeader>
                         <CardTitle>Progress Chart</CardTitle>
