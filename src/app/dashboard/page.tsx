@@ -1,6 +1,5 @@
 import { ProgressChart } from '@/components/progess-chart'
 import RankCards from '@/components/rank-cards'
-import Topbar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Workout } from '../rank/page'
@@ -11,7 +10,6 @@ const typesofworkouts: Workout[] = [
 export default function Dashboard() {
     return (
         <div className="flex h-full w-full flex-col">
-            <Topbar />
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex flex-row gap-8">
                     {typesofworkouts.map((workout) => (

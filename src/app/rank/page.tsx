@@ -1,6 +1,5 @@
 import { CommandDialogDemo } from '@/components/combo-box'
 import RankCards from '@/components/rank-cards'
-import Topbar from '@/components/top-bar'
 
 export interface Workout {
     name: string
@@ -24,7 +23,6 @@ const typesofworkouts: Workout[] = [
 export default function rank() {
     return (
         <div className="flex h-full w-full flex-col">
-            <Topbar />
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex w-full flex-col gap-8">
                     <div className="flex justify-end">

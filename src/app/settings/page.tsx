@@ -1,14 +1,12 @@
-import Topbar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 
 export default function settings() {
     return (
         <div className="flex h-full w-full flex-col">
-            <Topbar />
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex w-full flex-col gap-8">
                     <div className="flex justify-end">
-                        <a href="/dashboard" className="w-20">
+                        <a href="/" className="w-20">
                             <Button variant="destructive">Logout</Button>
                         </a>
                     </div>
