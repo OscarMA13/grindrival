@@ -1,5 +1,5 @@
-import { ProgressChart } from '@/components/progesschart'
-import Topbar from '@/components/topbar'
+import { ProgressChart } from '@/components/progess-chart'
+import Topbar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
