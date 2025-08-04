@@ -1,7 +1,7 @@
 'use client'
 
 import { SignedIn, UserButton } from '@clerk/nextjs'
-import { Dumbbell, Home, HomeIcon, Settings, Settings2, Trophy } from 'lucide-react'
+import { Dumbbell, HomeIcon, Trophy } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
 
@@ -15,13 +15,6 @@ interface TopbarProps {
 export default function Topbar() {
     const router = useRouter()
 
-    const tabs = [
-        { id: 'home' as const, label: 'Home', icon: Home, link: 'dashboard' },
-        { id: 'workouts' as const, label: 'Workouts', icon: Dumbbell, link: 'workouts' },
-        { id: 'rank' as const, label: 'Rank', icon: Trophy, link: 'rank' },
-        { id: 'settings' as const, label: 'Settings', icon: Settings, link: 'settings' }
-    ]
-
     return (
         <div className="flex w-full border px-4 py-4">
             <div className="flex w-full gap-4">
@@ -33,9 +26,6 @@ export default function Topbar() {
                 </Button>
                 <Button variant="outline" onClick={() => router.push('/rank')}>
                     <Trophy /> Rank
-                </Button>
-                <Button variant="outline" onClick={() => router.push('/settings')}>
-                    <Settings2 /> Settings
                 </Button>
             </div>
             <SignedIn>
