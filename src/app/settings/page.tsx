@@ -1,14 +1,33 @@
+import Topbar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 
 export default function settings() {
     return (
-        <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-            <h1>different types of settings</h1>
-            <Button variant="default">
-                {' '}
-                <Link href="/dashboard">Get Started</Link>
-            </Button>
+        <div className="flex h-full w-full flex-col">
+            <Topbar />
+            <div className="flex flex-col gap-8 px-8 py-4">
+                <div className="flex w-full flex-col gap-8">
+                    <div className="flex justify-end">
+                        <a href="/dashboard" className="w-20">
+                            <Button variant="destructive">Logout</Button>
+                        </a>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2">
+                        <label className="font-medium">Change name</label>
+                        <input type="text" className="rounded border px-3 py-2" placeholder="Your name" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="font-medium">Email</label>
+                        <input type="email" className="rounded border px-3 py-2" placeholder="Your email" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label className="font-medium">Change Password</label>
+                        <input type="password" className="rounded border px-3 py-2" placeholder="New password" />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
