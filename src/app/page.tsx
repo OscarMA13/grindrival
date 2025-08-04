@@ -21,7 +21,7 @@ export default function Home() {
                 <div className="flex flex-col items-center gap-4">
                     <p className="text-muted-foreground text-lg">Welcome back! Ready to continue your grind?</p>
                     <Button variant="default" size="lg" asChild>
-                        <Link href="/workouts">Go to Workouts</Link>
+                        <Link href="/dashboard">Go to Dashboard</Link>
                     </Button>
                 </div>
             </SignedIn>
