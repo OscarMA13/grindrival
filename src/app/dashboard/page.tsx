@@ -1,3 +1,4 @@
+import { ProgressChart } from '@/components/progesschart'
 import Topbar from '@/components/topbar'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -63,6 +64,19 @@ export default function Dashboard() {
                     </CardContent>
                     <CardFooter>
                         <Button>Add Friend +</Button>
+                    </CardFooter>
+                </Card>
+                <Card className="h-full w-full">
+                    <CardHeader>
+                        <CardTitle>Progress Chart</CardTitle>
+                        <CardDescription>Track your progress over the last 6 months.</CardDescription>
+                        <CardAction></CardAction>
+                    </CardHeader>
+                    <CardContent>
+                        <ProgressChart />
+                    </CardContent>
+                    <CardFooter>
+                        <Button>View Full Chart</Button>
                     </CardFooter>
                 </Card>
             </div>
