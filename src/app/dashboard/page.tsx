@@ -1,40 +1,22 @@
 import { ProgressChart } from '@/components/progess-chart'
+import RankCards from '@/components/rank-cards'
 import Topbar from '@/components/top-bar'
 import { Button } from '@/components/ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-
+import { Workout } from '../rank/page'
+const typesofworkouts: Workout[] = [
+    { name: 'Chest', rank: 'platinum', description: 'You are currently ranked Platinum in Chest.', weight: '100' },
+    { name: 'Back', rank: 'gold', description: 'You are currently ranked Gold in Back.', weight: '90' }
+]
 export default function Dashboard() {
     return (
         <div className="flex h-full w-full flex-col">
             <Topbar />
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex flex-row gap-8">
-                    <Card className="h-full w-full">
-                        <CardHeader>
-                            <CardTitle>Chest Rank</CardTitle>
-                            <CardDescription>You are currently ranked in the top 10% of players.</CardDescription>
-                            <CardAction></CardAction>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Image will go here with Rank</p>
-                        </CardContent>
-                        <CardFooter>
-                            <Button>View Details</Button>
-                        </CardFooter>
-                    </Card>
-                    <Card className="h-full w-full">
-                        <CardHeader>
-                            <CardTitle>Back Rank</CardTitle>
-                            <CardDescription>You are currently ranked in the top 20% of players.</CardDescription>
-                            <CardAction></CardAction>
-                        </CardHeader>
-                        <CardContent>
-                            <p>Image will go here with Rank</p>
-                        </CardContent>
-                        <CardFooter>
-                            <Button>View Details</Button>
-                        </CardFooter>
-                    </Card>
+                    {typesofworkouts.map((workout) => (
+                        <RankCards key={workout.name} name={workout.name} rank={workout.rank} description={workout.description} weight={workout.weight ?? ''} />
+                    ))}
                 </div>
                 <Card className="h-full w-full">
                     <CardHeader>

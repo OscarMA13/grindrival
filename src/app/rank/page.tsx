@@ -10,15 +10,15 @@ export interface Workout {
 }
 
 const typesofworkouts: Workout[] = [
-    { name: 'Chest', rank: 'Top 10%', description: 'You are currently ranked in the top 10% of players.' },
-    { name: 'Back', rank: 'Top 20%', description: 'You are currently ranked in the top 20% of players.' },
-    { name: 'Legs', rank: 'Top 30%', description: 'You are currently ranked in the top 30% of players.' },
-    { name: 'Shoulders', rank: 'Top 15%', description: 'You are currently ranked in the top 15% of players.' },
-    { name: 'Arms', rank: 'Top 25%', description: 'You are currently ranked in the top 25% of players.' },
-    { name: 'Abs', rank: 'Top 18%', description: 'You are currently ranked in the top 18% of players.' },
-    { name: 'Cardio', rank: 'Top 12%', description: 'You are currently ranked in the top 12% of players.' },
-    { name: 'Glutes', rank: 'Top 22%', description: 'You are currently ranked in the top 22% of players.' },
-    { name: 'Calves', rank: 'Top 28%', description: 'You are currently ranked in the top 28% of players.' }
+    { name: 'Chest', rank: 'platinum', description: 'You are currently ranked Platinum in Chest.', weight: '100' },
+    { name: 'Back', rank: 'gold', description: 'You are currently ranked Gold in Back.', weight: '90' },
+    { name: 'Legs', rank: 'silver', description: 'You are currently ranked Silver in Legs.', weight: '80' },
+    { name: 'Shoulders', rank: 'gold', description: 'You are currently ranked Gold in Shoulders.', weight: '85' },
+    { name: 'Arms', rank: 'silver', description: 'You are currently ranked Silver in Arms.', weight: '75' },
+    { name: 'Abs', rank: 'gold', description: 'You are currently ranked Gold in Abs.', weight: '70' },
+    { name: 'Cardio', rank: 'platinum', description: 'You are currently ranked Platinum in Cardio.', weight: '95' },
+    { name: 'Glutes', rank: 'gold', description: 'You are currently ranked Gold in Glutes.', weight: '88' },
+    { name: 'Calves', rank: 'bronze', description: 'You are currently ranked Bronze in Calves.', weight: '65' }
 ]
 
 export default function rank() {
@@ -32,7 +32,13 @@ export default function rank() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         {typesofworkouts.map((workout) => (
-                            <RankCards key={workout.name} name={workout.name} rank={workout.rank} description={workout.description} />
+                            <RankCards
+                                key={workout.name}
+                                name={workout.name}
+                                rank={workout.rank}
+                                description={workout.description}
+                                weight={workout.weight ?? ''}
+                            />
                         ))}
                     </div>
                 </div>
