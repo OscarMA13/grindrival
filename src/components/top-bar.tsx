@@ -16,7 +16,7 @@ export default function Topbar() {
 
     return (
         <div className="flex w-full border px-4 py-4">
-            <div className="flex w-full gap-4">
+            <div className="flex w-full gap-2 md:gap-4">
                 <Button variant="outline" onClick={() => router.push('/dashboard')}>
                     <HomeIcon /> Home
                 </Button>

@@ -41,7 +41,7 @@ export default function Rank() {
                     <div className="flex justify-end">
                         <CommandDialogDemo workouts={typesofworkouts} />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-8 md:grid md:grid-cols-2">
                         {typesofworkouts.map((workout) => (
                             <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} />
                         ))}

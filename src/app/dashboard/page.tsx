@@ -1,5 +1,6 @@
 'use client'
 
+import { AcceptFriendRequestDialog } from '@/components/accpet-friend-request'
 import FriendsList from '@/components/friends-list'
 import { ProgressChart } from '@/components/progess-chart'
 import RankCards from '@/components/rank-cards'
@@ -58,10 +59,15 @@ export default function Dashboard() {
     return (
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
-                <div className="flex flex-row gap-8">
-                    {typesofworkouts.map((workout) => (
+                <div className="flex flex-col gap-8 md:flex-row">
+                    {typesofworkouts.slice(0, 2).map((workout) => (
                         <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} />
                     ))}
+                    {typesofworkouts.length > 2 && (
+                        <div className="hidden md:flex-row">
+                            <RankCards name={typesofworkouts[2].name} weight={typesofworkouts[2].weight ?? ''} />
+                        </div>
+                    )}
                 </div>
 
                 {!latestWorkout && (
@@ -72,6 +78,7 @@ export default function Dashboard() {
                         </CardContent>
                     </Card>
                 )}
+                <AcceptFriendRequestDialog />
                 <FriendsList />
                 <Card className="h-full w-full">
                     <CardHeader>

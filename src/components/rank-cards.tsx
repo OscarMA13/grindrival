@@ -33,7 +33,7 @@ export default function RankCards({ name, weight }: { name: string; weight: stri
     const description = descriptions[rank]
 
     return (
-        <Card className="h-full w-full">
+        <Card className="md:h-full md:w-full">
             <CardHeader>
                 <CardTitle className="text-xl font-semibold">{name} Rank</CardTitle>
                 <CardDescription>

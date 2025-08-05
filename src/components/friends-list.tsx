@@ -1,3 +1,4 @@
+import { SendFriendRequestDialog } from './send-friend-request'
 import { Button } from './ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 
@@ -39,7 +40,7 @@ export default function FriendsList() {
             ) : (
                 <div className="h-30 flex w-full flex-col items-center justify-center gap-4">
                     <p className="text-gray-400">No friends added yet.</p>
-                    <Button variant="default">Add Friend +</Button>
+                    <SendFriendRequestDialog />
                 </div>
             )}
         </Card>

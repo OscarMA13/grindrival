@@ -20,7 +20,7 @@ export function CommandDialogDemo({ workouts }: { workouts: Workout[] }) {
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Suggestions">
-                        {workouts.slice(0, 3).map((workout, idx) => (
+                        {workouts.slice(0, 3).map((workout) => (
                             <CommandItem key={workout.name}>
                                 <DumbbellIcon />
                                 <span>{workout.name}</span>

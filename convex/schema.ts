@@ -14,7 +14,9 @@ export default defineSchema({
         phone_number_verified: v.optional(v.boolean()),
         updated_at: v.optional(v.number()),
         clerkId: v.string()
-    }).index('by_clerk_id', ['clerkId']),
+    })
+        .index('by_clerk_id', ['clerkId'])
+        .index('by_nickname', ['nickname']),
 
     workouts: defineTable({
         userId: v.id('users'),
@@ -22,5 +24,18 @@ export default defineSchema({
         squat: v.number(),
         deadlift: v.number(),
         createdAt: v.number()
-    }).index('by_user', ['userId'])
+    }).index('by_user', ['userId']),
+
+    friendships: defineTable({
+        user_id1: v.id('users'),
+        user_id2: v.id('users'),
+        status: v.union(v.literal('pending'), v.literal('accepted'), v.literal('declined'), v.literal('blocked')),
+        createdAt: v.number(),
+        updatedAt: v.number()
+    })
+        .index('by_user1', ['user_id1'])
+        .index('by_user2', ['user_id2'])
+        .index('by_status', ['status'])
+        .index('by_user1_status', ['user_id1', 'status'])
+        .index('by_user2_status', ['user_id2', 'status'])
 })
