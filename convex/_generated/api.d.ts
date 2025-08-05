@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as FriendRequest from "../FriendRequest.js";
+import type * as updateWeight from "../updateWeight.js";
 import type * as users from "../users.js";
 import type * as workouts from "../workouts.js";
 
@@ -27,6 +28,7 @@ import type * as workouts from "../workouts.js";
  */
 declare const fullApi: ApiFromModules<{
   FriendRequest: typeof FriendRequest;
+  updateWeight: typeof updateWeight;
   users: typeof users;
   workouts: typeof workouts;
 }>;

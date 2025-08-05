@@ -1,11 +1,13 @@
 import { cn } from '@/lib/utils'
 import { useQuery } from 'convex/react'
+import { useRouter } from 'next/navigation'
 import { api } from '../../convex/_generated/api'
 import { SendFriendRequestDialog } from './send-friend-request'
 import { Button } from './ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 
 export default function DifferentList({ isGroup }: { isGroup: boolean }) {
+    const router = useRouter()
     const friends = useQuery(api.FriendRequest.friendsList)
     return (
         <Card className="flex h-full w-full">
@@ -21,11 +23,10 @@ export default function DifferentList({ isGroup }: { isGroup: boolean }) {
                             <ul className="flex list-disc flex-col gap-5 pl-5">
                                 {friends?.map((friend) => (
                                     <li key={friend.friendId} className="flex flex-col gap-8">
-                                        <p className="font-semibold">UserName</p>
                                         <div className="flex items-center justify-between gap-4">
                                             <span>{friend.friendNickname}</span>
                                             <div className="flex gap-2">
-                                                <Button variant="outline" size="sm">
+                                                <Button variant="outline" size="sm" onClick={() => router.push(`/rank/${friend.friendId}`)}>
                                                     Check stats
                                                 </Button>
                                             </div>

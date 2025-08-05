@@ -1,5 +1,6 @@
-import { Button } from './ui/button'
+import { Id } from '../../convex/_generated/dataModel'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
+import UpdateWorkout from './update-workout'
 
 export function getRank(weight: number, exercise: 'bench' | 'squat' | 'deadlift'): string {
     // You can adjust these thresholds based on your ranking system
@@ -17,7 +18,7 @@ export function getRank(weight: number, exercise: 'bench' | 'squat' | 'deadlift'
     return 'bronze'
 }
 
-export default function RankCards({ name, weight }: { name: string; weight: string }) {
+export default function RankCards({ name, weight, id, friends }: { name: string; weight: string; id?: string; friends?: boolean }) {
     // Convert weight to number and determine rank
     const weightNum = Number(weight) || 0
     const exerciseType = name.toLowerCase() as 'bench' | 'squat' | 'deadlift'
@@ -61,9 +62,7 @@ export default function RankCards({ name, weight }: { name: string; weight: stri
                     <p className="text-center text-sm">{description}</p>
                 </div>
             </CardContent>
-            <CardFooter>
-                <Button>Update Weight</Button>
-            </CardFooter>
+            <CardFooter>{!friends && <UpdateWorkout id={id as Id<'workouts'>} workoutType={exerciseType} weight={weightNum} />}</CardFooter>
         </Card>
     )
 }

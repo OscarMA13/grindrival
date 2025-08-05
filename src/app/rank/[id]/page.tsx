@@ -2,16 +2,20 @@
 import { CommandDialogDemo } from '@/components/combo-box'
 import RankCards from '@/components/rank-cards'
 import { useQuery } from 'convex/react'
-import { api } from '../../../convex/_generated/api'
+
+import { useParams } from 'next/navigation'
+import { api } from '../../../../convex/_generated/api'
+import { Id } from '../../../../convex/_generated/dataModel'
 
 export interface Workout {
     name: string
 
     weight?: string
 }
-
-export default function Rank() {
-    const workouts = useQuery(api.workouts.getWorkoutsForCurrentUser)
+export default function UserRank() {
+    const params = useParams()
+    const userId = params?.id as Id<'users'>
+    const workouts = useQuery(api.workouts.getUserWorkoutsById, { userId })
     const latestWorkout = workouts?.[0]
 
     const typesofworkouts = latestWorkout
@@ -43,7 +47,7 @@ export default function Rank() {
                     </div>
                     <div className="flex flex-col gap-8 md:grid md:grid-cols-2">
                         {typesofworkouts.map((workout) => (
-                            <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} id={workouts?.[0]?._id} />
+                            <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} friends={true} />
                         ))}
                     </div>
                 </div>

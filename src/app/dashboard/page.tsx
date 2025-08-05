@@ -60,16 +60,18 @@ export default function Dashboard() {
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
                 <AcceptFriendRequestDialog />
-                <div className="flex flex-col gap-8 md:flex-row">
-                    {typesofworkouts.slice(0, 2).map((workout) => (
-                        <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} />
-                    ))}
-                    {typesofworkouts.length > 2 && (
-                        <div className="hidden md:flex-row">
-                            <RankCards name={typesofworkouts[2].name} weight={typesofworkouts[2].weight ?? ''} />
-                        </div>
-                    )}
-                </div>
+                {workouts?.[0]?._id && (
+                    <div className="flex flex-col gap-8 md:flex-row">
+                        {typesofworkouts.slice(0, 2).map((workout) => (
+                            <RankCards key={workout.name} name={workout.name} weight={workout.weight ?? ''} id={workouts?.[0]._id ?? ''} />
+                        ))}
+                        {typesofworkouts.length > 2 && (
+                            <div className="hidden md:flex-row">
+                                <RankCards name={typesofworkouts[2].name} weight={typesofworkouts[2].weight ?? ''} id={workouts?.[0]._id ?? ''} />
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {!latestWorkout && (
                     <Card className="w-full">
