@@ -20,7 +20,10 @@ const chartConfig = {
 export function ProgressChart() {
     const personal = useQuery(api.workouts.getWorkoutsForCurrentUser)
     const friendslist = (useQuery(api.FriendRequest.friendsList) ?? []).slice(0, 5)
-    const workouts = useQuery(api.workouts.getUserWorkoutsById, friendslist[0]?.friendId ? { userId: friendslist[0].friendId } : 'skip')
+    const workouts = useQuery(
+        api.workouts.getUserWorkoutsByIdsList,
+        friendslist.length > 0 ? { userIds: friendslist.map((friend) => friend.friendId) } : 'skip'
+    )
     const benchData = [
         {
             name: 'Me',

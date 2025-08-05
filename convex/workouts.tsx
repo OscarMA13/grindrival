@@ -72,3 +72,14 @@ export const getUserWorkoutsById = query({
             .collect()
     }
 })
+
+export const getUserWorkoutsByIdsList = query({
+    args: { userIds: v.array(v.id('users')) },
+    handler: async (ctx, args) => {
+        return await ctx.db
+            .query('workouts')
+            .filter((q) => q.or(...args.userIds.map((userId) => q.eq(q.field('userId'), userId))))
+            .order('desc')
+            .collect()
+    }
+})
