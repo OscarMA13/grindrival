@@ -19,49 +19,49 @@ const chartConfig = {
 
 export function ProgressChart() {
     const personal = useQuery(api.workouts.getWorkoutsForCurrentUser)
-    const friendslist = useQuery(api.FriendRequest.friendsList)
-    const workouts = useQuery(api.workouts.getUserWorkoutsById, friendslist?.[0]?.friendId ? { userId: friendslist[0].friendId } : 'skip')
+    const friendslist = (useQuery(api.FriendRequest.friendsList) ?? []).slice(0, 5)
+    const workouts = useQuery(api.workouts.getUserWorkoutsById, friendslist[0]?.friendId ? { userId: friendslist[0].friendId } : 'skip')
     const benchData = [
         {
             name: 'Me',
             bench: personal?.reduce((max, workout) => (workout.bench && workout.bench > max ? workout.bench : max), 0) ?? 0
         },
-        ...(friendslist?.map((friend) => {
+        ...friendslist.map((friend) => {
             const friendWorkouts = workouts?.filter((w) => w.userId === friend.friendId) ?? []
             const maxBench = friendWorkouts.reduce((max, workout) => (workout.bench && workout.bench > max ? workout.bench : max), 0)
             return {
                 name: friend.friendNickname ?? 'Friend',
                 bench: maxBench
             }
-        }) ?? [])
+        })
     ]
     const squatData = [
         {
             name: 'Me',
             squat: personal?.reduce((max, workout) => (workout.squat && workout.squat > max ? workout.squat : max), 0) ?? 0
         },
-        ...(friendslist?.map((friend) => {
+        ...friendslist.map((friend) => {
             const friendWorkouts = workouts?.filter((w) => w.userId === friend.friendId) ?? []
             const maxSquat = friendWorkouts.reduce((max, workout) => (workout.squat && workout.squat > max ? workout.squat : max), 0)
             return {
                 name: friend.friendNickname ?? 'Friend',
                 squat: maxSquat
             }
-        }) ?? [])
+        })
     ]
     const deadliftData = [
         {
             name: 'Me',
             deadlift: personal?.reduce((max, workout) => (workout.deadlift && workout.deadlift > max ? workout.deadlift : max), 0) ?? 0
         },
-        ...(friendslist?.map((friend) => {
+        ...friendslist.map((friend) => {
             const friendWorkouts = workouts?.filter((w) => w.userId === friend.friendId) ?? []
             const maxDeadlift = friendWorkouts.reduce((max, workout) => (workout.deadlift && workout.deadlift > max ? workout.deadlift : max), 0)
             return {
                 name: friend.friendNickname ?? 'Friend',
                 deadlift: maxDeadlift
             }
-        }) ?? [])
+        })
     ]
     return (
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
@@ -89,7 +89,7 @@ export function ProgressChart() {
                 <XAxis dataKey="workout" tick={{ fontSize: 14 }} label={{ value: 'Workout', position: 'insideBottom', offset: -5, fontSize: 15 }} />
                 <YAxis tick={{ fontSize: 14 }} label={{ value: 'Weight (lbs)', angle: -90, position: 'insideLeft', fontSize: 15 }} />
                 <Bar dataKey="Me" fill="#008000" radius={[8, 8, 0, 0]} maxBarSize={40} background={{ fill: '#f3f4f6', radius: 8 }} />
-                {friendslist?.map((friend) => {
+                {friendslist.map((friend) => {
                     // Generate a random color for each friend
                     const randomColor = `#${Math.floor(Math.random() * 16777215)
                         .toString(16)

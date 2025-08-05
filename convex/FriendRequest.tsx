@@ -35,11 +35,9 @@ export const sendFriendRequest = mutation({
             throw new Error('Target user not found')
         }
 
-        const { user_id1, user_id2 } = orderUserIds(currentUser._id, targetUser._id)
-
         return await ctx.db.insert('friendships', {
-            user_id1,
-            user_id2,
+            user_id1: currentUser._id,
+            user_id2: targetUser._id,
             status: 'pending',
             createdAt: Date.now(),
             updatedAt: Date.now()
