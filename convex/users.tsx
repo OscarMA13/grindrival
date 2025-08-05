@@ -1,5 +1,7 @@
 import { mutation, query } from './_generated/server'
 
+import { v } from 'convex/values'
+
 export const store = mutation({
     args: {},
     handler: async (ctx) => {
@@ -56,6 +58,17 @@ export const getUserInfo = query({
             throw new Error('User not found')
         }
 
+        return user
+    }
+})
+
+export const getUserInfobyId = query({
+    args: { id: v.id('users') },
+    handler: async (ctx, args) => {
+        const user = await ctx.db.get(args.id)
+        if (!user) {
+            throw new Error('User not found')
+        }
         return user
     }
 })

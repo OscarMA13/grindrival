@@ -59,7 +59,8 @@ export default function Dashboard() {
     return (
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
-                <div className="flex flex-row justify-end gap-4">
+                <div className="flex flex-row justify-between gap-4">
+                    <p className="text-2xl font-semibold">Home</p>
                     <AcceptFriendRequestDialog />
                 </div>
                 {workouts?.[0]?._id && (

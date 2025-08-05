@@ -17,6 +17,7 @@ export default function UserRank() {
     const userId = params?.id as Id<'users'>
     const workouts = useQuery(api.workouts.getUserWorkoutsById, { userId })
     const latestWorkout = workouts?.[0]
+    const user = useQuery(api.users.getUserInfobyId, { id: userId })
 
     const typesofworkouts = latestWorkout
         ? [
@@ -42,7 +43,8 @@ export default function UserRank() {
         <div className="flex h-full w-full flex-col">
             <div className="flex flex-col gap-8 px-8 py-4">
                 <div className="flex w-full flex-col gap-8">
-                    <div className="flex justify-end">
+                    <div className="flex justify-between">
+                        <p className="text-2xl font-semibold">{`${user?.nickname}'s Ranks`}</p>
                         <CommandDialogDemo workouts={typesofworkouts} />
                     </div>
                     <div className="flex flex-col gap-8 md:grid md:grid-cols-2">
