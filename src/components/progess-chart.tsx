@@ -6,15 +6,6 @@ import { ChartConfig, ChartContainer } from '@/components/ui/chart'
 import { useQuery } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 
-const chartData = [
-    { month: 'January', cardio: 120, strength: 80 },
-    { month: 'February', cardio: 140, strength: 100 },
-    { month: 'March', cardio: 110, strength: 90 },
-    { month: 'April', cardio: 160, strength: 120 },
-    { month: 'May', cardio: 130, strength: 110 },
-    { month: 'June', cardio: 150, strength: 115 }
-]
-
 const chartConfig = {
     cardio: {
         label: 'Cardio',

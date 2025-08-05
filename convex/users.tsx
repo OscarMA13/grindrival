@@ -1,4 +1,4 @@
-import { mutation } from './_generated/server'
+import { mutation, query } from './_generated/server'
 
 export const store = mutation({
     args: {},
@@ -36,5 +36,26 @@ export const store = mutation({
             updated_at: identity.updatedAt ? Date.parse(identity.updatedAt) : undefined,
             clerkId: identity.subject
         })
+    }
+})
+
+export const getUserInfo = query({
+    args: {},
+    handler: async (ctx) => {
+        const identity = await ctx.auth.getUserIdentity()
+        if (!identity) {
+            throw new Error('Called getUserInfo without authentication present')
+        }
+
+        const user = await ctx.db
+            .query('users')
+            .withIndex('by_clerk_id', (q) => q.eq('clerkId', identity.subject))
+            .unique()
+
+        if (!user) {
+            throw new Error('User not found')
+        }
+
+        return user
     }
 })
