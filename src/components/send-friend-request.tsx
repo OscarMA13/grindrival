@@ -8,7 +8,7 @@ import { api } from '../../convex/_generated/api'
 
 export function SendFriendRequestDialog() {
     const [targetUserId, setTargetUserId] = useState('')
-    const sendFriendRequest = useMutation(api.sendFriendRequest.sendFriendRequest)
+    const sendFriendRequest = useMutation(api.FriendRequest.sendFriendRequest)
 
     const handleSubmit = () => {
         sendFriendRequest({ nickname: targetUserId })
@@ -18,7 +18,7 @@ export function SendFriendRequestDialog() {
         <Dialog>
             <form onSubmit={handleSubmit}>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Open Dialog</Button>
+                    <Button variant="outline">Add friends +</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>

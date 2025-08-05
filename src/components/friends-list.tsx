@@ -1,45 +1,47 @@
+import { cn } from '@/lib/utils'
+import { useQuery } from 'convex/react'
+import { api } from '../../convex/_generated/api'
 import { SendFriendRequestDialog } from './send-friend-request'
 import { Button } from './ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 
-export default function FriendsList() {
+export default function DifferentList({ isGroup }: { isGroup: boolean }) {
+    const friends = useQuery(api.FriendRequest.friendsList)
     return (
-        <Card className="flex h-full w-full items-center justify-center">
-            {/* Example friends array */}
-            {false ? (
+        <Card className="flex h-full w-full">
+            {friends?.length ? (
                 <>
                     <CardHeader>
-                        <CardTitle>List of friends</CardTitle>
+                        <CardTitle>{cn(!isGroup ? 'List of friends' : 'List of groups')}</CardTitle>
                         <CardDescription></CardDescription>
                         <CardAction></CardAction>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-[1fr_2fr]">
-                        <div>Image will go here </div>
-                        <ul className="flex list-disc flex-col gap-5 pl-5">
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Alex Johnson <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Maria Chen <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Sam Patel <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Jordan Lee <Button> Add your friend</Button>
-                            </li>
-                            <li className="flex flex-row items-center justify-between gap-2">
-                                Chris Smith <Button> Add your friend</Button>
-                            </li>
-                        </ul>
+                    <CardContent>
+                        {!isGroup ? (
+                            <ul className="flex list-disc flex-col gap-5 pl-5">
+                                {friends?.map((friend) => (
+                                    <li key={friend.friendId} className="flex flex-col gap-8">
+                                        <p className="font-semibold">UserName</p>
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span>{friend.friendNickname}</span>
+                                            <div className="flex gap-2">
+                                                <Button variant="outline" size="sm">
+                                                    Check stats
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <div>Coming soon</div>
+                        )}
                     </CardContent>
-                    <CardFooter>
-                        <Button>Add Friend +</Button>
-                    </CardFooter>
+                    <CardFooter>{!isGroup && <SendFriendRequestDialog />}</CardFooter>
                 </>
             ) : (
                 <div className="h-30 flex w-full flex-col items-center justify-center gap-4">
-                    <p className="text-gray-400">No friends added yet.</p>
+                    <p className="text-gray-400">{cn(!isGroup ? 'No friends added yet.' : 'No friends in this group.')}</p>
                     <SendFriendRequestDialog />
                 </div>
             )}

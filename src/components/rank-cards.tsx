@@ -1,23 +1,23 @@
 import { Button } from './ui/button'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 
-export default function RankCards({ name, weight }: { name: string; weight: string }) {
-    function getRank(weight: number, exercise: 'bench' | 'squat' | 'deadlift'): string {
-        // You can adjust these thresholds based on your ranking system
-        const thresholds = {
-            bench: { bronze: 135, silver: 185, gold: 225, platinum: 315 },
-            squat: { bronze: 185, silver: 275, gold: 365, platinum: 455 },
-            deadlift: { bronze: 185, silver: 275, gold: 365, platinum: 455 }
-        }
-
-        const exerciseThresholds = thresholds[exercise]
-        if (!exerciseThresholds) return 'bronze'
-        if (weight >= exerciseThresholds.platinum) return 'platinum'
-        if (weight >= exerciseThresholds.gold) return 'gold'
-        if (weight >= exerciseThresholds.silver) return 'silver'
-        return 'bronze'
+export function getRank(weight: number, exercise: 'bench' | 'squat' | 'deadlift'): string {
+    // You can adjust these thresholds based on your ranking system
+    const thresholds = {
+        bench: { bronze: 135, silver: 185, gold: 225, platinum: 315 },
+        squat: { bronze: 185, silver: 275, gold: 365, platinum: 455 },
+        deadlift: { bronze: 185, silver: 275, gold: 365, platinum: 455 }
     }
 
+    const exerciseThresholds = thresholds[exercise]
+    if (!exerciseThresholds) return 'bronze'
+    if (weight >= exerciseThresholds.platinum) return 'platinum'
+    if (weight >= exerciseThresholds.gold) return 'gold'
+    if (weight >= exerciseThresholds.silver) return 'silver'
+    return 'bronze'
+}
+
+export default function RankCards({ name, weight }: { name: string; weight: string }) {
     // Convert weight to number and determine rank
     const weightNum = Number(weight) || 0
     const exerciseType = name.toLowerCase() as 'bench' | 'squat' | 'deadlift'

@@ -1,40 +1,35 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { useMutation } from 'convex/react'
-import { useState } from 'react'
+import { useMutation, useQuery } from 'convex/react'
+import { MailIcon } from 'lucide-react'
 import { api } from '../../convex/_generated/api'
-
-import { useEffect } from 'react'
+import type { Id } from '../../convex/_generated/dataModel'
 
 export function AcceptFriendRequestDialog() {
-    const [targetUserId, setTargetUserId] = useState('')
-    type FriendRequest = { requesterNickname: string | null }
-
-    const hasFriendRequests = useMutation<typeof api.sendFriendRequest.getFriendRequests>(api.sendFriendRequest.getFriendRequests)
-
-    const [friendRequests, setFriendRequests] = useState<string[]>([])
-
-    useEffect(() => {
-        async function fetchFriendRequests() {
-            const requests = (await hasFriendRequests()) as FriendRequest[] | FriendRequest | null
-            if (Array.isArray(requests)) {
-                setFriendRequests(requests.map((request) => request.requesterNickname).filter((nickname): nickname is string => nickname !== null))
-            } else if (requests && (requests as FriendRequest).requesterNickname) {
-                setFriendRequests([(requests as FriendRequest).requesterNickname!])
-            } else {
-                setFriendRequests([])
-            }
+    const hasFriendRequests = useQuery(api.FriendRequest.getFriendRequests)
+    const acceptFriendRequest = useMutation(api.FriendRequest.acceptFriendRequest)
+    const rejectFriendRequest = useMutation(api.FriendRequest.rejectFriendRequest)
+    const handleSubmit = (friendshipId: Id<'friendships'>) => {
+        if (friendshipId) {
+            acceptFriendRequest({ _id: friendshipId })
         }
-        fetchFriendRequests()
-    }, [])
-    const handleSubmit = () => {}
+    }
+    const handleReject = (friendshipId: Id<'friendships'>) => {
+        if (friendshipId) {
+            rejectFriendRequest({ _id: friendshipId })
+        }
+    }
 
     return (
         <Dialog>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Open Dialog</Button>
+                    <Button variant="outline">
+                        {' '}
+                        <MailIcon />
+                        Friend Requests
+                    </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
@@ -45,17 +40,17 @@ export function AcceptFriendRequestDialog() {
                         <div className="grid gap-3">
                             <Label>Pending Friend Requests</Label>
                             <ul className="list-disc pl-5">
-                                {friendRequests.length === 0 ? (
+                                {hasFriendRequests?.length === 0 ? (
                                     <li>No pending requests</li>
                                 ) : (
-                                    friendRequests.map((userId) => (
-                                        <li key={userId} className="flex items-center justify-between">
-                                            <span>{userId}</span>
+                                    hasFriendRequests?.map((user) => (
+                                        <li key={user._id} className="flex items-center justify-between">
+                                            <span>{user.requesterNickname ?? user.requesterId}</span>
                                             <div className="flex gap-2">
-                                                <Button variant="ghost" size="sm">
+                                                <Button variant="ghost" size="sm" onClick={() => handleReject(user.friendshipId)}>
                                                     Reject
                                                 </Button>
-                                                <Button size="sm" className="bg-green-500" onClick={() => setTargetUserId(userId)}>
+                                                <Button size="sm" className="bg-green-500" onClick={() => handleSubmit(user.friendshipId)}>
                                                     Accept
                                                 </Button>
                                             </div>

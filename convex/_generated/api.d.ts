@@ -13,7 +13,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import type * as sendFriendRequest from "../sendFriendRequest.js";
+import type * as FriendRequest from "../FriendRequest.js";
 import type * as users from "../users.js";
 import type * as workouts from "../workouts.js";
 
@@ -26,7 +26,7 @@ import type * as workouts from "../workouts.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  sendFriendRequest: typeof sendFriendRequest;
+  FriendRequest: typeof FriendRequest;
   users: typeof users;
   workouts: typeof workouts;
 }>;
